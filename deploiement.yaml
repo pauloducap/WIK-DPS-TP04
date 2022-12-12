@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: p-serv
+  labels:
+    app: p-serv
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      tutu: pp-api
+  template:
+    metadata:
+      labels:
+        tutu: pp-api
+    spec:
+      containers:
+      - name: p-serv
+        image: registry.cluster.wik.cloud/public/echo
+        ports:
+          - containerPort: 8080
+
+# -------- le service -------
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: p-serv
+spec:
+  selector:
+    tutu: p-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      

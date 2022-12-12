@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: p-api
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      type: p-api
+  template:
+    metadata:
+      labels:
+        type:
+    spec:
+      containers:
+        - name: p-api
+          image: registry.cluster.wik.cloud/public/echo
+          ports:
+        - containerPort: 8080
